@@ -18,7 +18,49 @@
     </div>
     <div id="formats">Format: start recording to see sample rate</div>
   	<p><strong>Recordings:</strong></p>
-  	<ol id="recordingsList"></ol>
+    <ol id="recordingsList"></ol>
+    
+    <!-- video part -->
+    <div class="file-upload">
+      <h5>Attach any file(video, image):  </h5>
+      <input class="file-upload__input video-btn" name="myFile[]" id="myFile" multiple>
+      <button class="file-upload__button" type="button">Choose File(s)</button>
+      <span class="file-upload__label"></span>
+    </div>
+
+    <script>
+      Array.prototype.forEach.call(
+      document.querySelectorAll(".file-upload__button"),
+      function(button) {
+        const hiddenInput = button.parentElement.querySelector(
+          ".file-upload__input"
+        );
+        const label = button.parentElement.querySelector(".file-upload__label");
+        const defaultLabelText = "No file(s) selected";
+
+        // Set default text for label
+        label.textContent = defaultLabelText;
+        label.title = defaultLabelText;
+
+        button.addEventListener("click", function() {
+          hiddenInput.click();
+        });
+
+        hiddenInput.addEventListener("change", function() {
+          const filenameList = Array.prototype.map.call(hiddenInput.files, function(
+            file
+          ) {
+            return file.name;
+          });
+
+          label.textContent = filenameList.join(", ") || defaultLabelText;
+          label.title = label.textContent;
+        });
+      }
+    );
+
+    </script>
+
     <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
   	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
   	<script src="js/app.js"></script>
